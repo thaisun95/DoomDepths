@@ -76,6 +76,10 @@ void main_menu()
             }
 
             dispaly_all_monsters(monsters);
+
+            // Appel de la fonction player_attack
+            player_attack(monsters, numMonsters);
+
             free_monsters(monsters);
 
             break;
@@ -87,4 +91,46 @@ void main_menu()
             break;
         }
     } while (choice < 1 || choice > 2);
+}
+
+void monsters_attack(Player *player, Monster *monsters, int num_monsters) {
+    printf("\nC'est au tour des monstres d'attaquer!\n");
+    for (int i = 0; i < num_monsters; i++) {
+        if (monsters[i].life > 0) {  // Le monstre attaque seulement s'il est en vie
+            int damage = (rand() % (monsters[i].attackMax - monsters[i].attackMin + 1)) + monsters[i].attackMin;
+            printf("Le monstre %s attaque et inflige %d dégâts!\n", monsters[i].name, damage);
+            player->health -= damage;
+        }
+    }
+
+    printf("Votre vie restante: %d\n", player->health);
+    if (player->health <= 0) {
+        printf("Vous avez été vaincu...\n");
+        exit(0);  // Fin du jeu
+    }
+}
+
+
+void player_attack(Monster *monsters, int num_monsters) {
+    printf("Choisissez un monstre à attaquer (0-%d):\n", num_monsters - 1);
+    for (int i = 0; i < num_monsters; i++) {
+        printf("%d. %s (Vie: %d)\n", i, monsters[i].name, monsters[i].life);
+    }
+
+    int choice;
+    scanf("%d", &choice);
+
+    if (choice >= 0 && choice < num_monsters) {
+    
+        int damage = 10 - monsters[choice].defense;
+        if (damage < 0) damage = 0; 
+        monsters[choice].life -= damage;
+        printf("Vous avez infligé %d dégâts au monstre %s!\n", damage, monsters[choice].name);
+
+        if (monsters[choice].life <= 0) {
+            printf("Le monstre %s est mort!\n", monsters[choice].name);
+        }
+    } else {
+        printf("Choix invalide.\n");
+    }
 }
