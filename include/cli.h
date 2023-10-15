@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 #include "utils.h"
+#include "monster.h"
+#include "player.h"
 
 /**
  * @brief Cross-platform function to clear console screen.
@@ -46,7 +48,7 @@ void wait_for_enter();
  * @return int 
  */
 int actualStringLength(const char *str);
-void player_attack(Monster *monsters, int num_monsters);
+void player_attack(Monsters *monsters);
 void monsters_attack(Player *player, Monster *monsters, int num_monsters);
 
 #endif
