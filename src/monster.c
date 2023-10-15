@@ -520,3 +520,10 @@ void free_monsters(Monsters *monsters)
     free(monsters->monsters);
     free(monsters);
 }
+
+void player_attack(Player *player, Monster *monster) {
+    int damage = player->attack - monster->defense;
+    if (damage < 0) damage = 0;
+    monster->life -= damage;  // Utilisez "life" au lieu de "health"
+    printf("%s attaque %s et inflige %d dégâts!\n", player->name, monster->name, damage);
+}
